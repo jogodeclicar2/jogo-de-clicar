@@ -1,0 +1,44 @@
+// Variáveis globais
+pontos = 0
+pontosParaSaque = 10000
+paypalEmail = ""
+
+// Função para clicar
+função clicar() {
+    pontos += 1
+    atualizarInterface()
+}
+
+// Função para atualizar a interface do usuário
+função atualizarInterface() {
+    mostrarPontos(pontos)
+    se (pontos >= pontosParaSaque) {
+        habilitarBotaoSaque()
+    }
+}
+
+// Função para solicitar saque
+função solicitarSaque() {
+    se (pontos >= pontosParaSaque) {
+        paypalEmail = obterEmailPayPal() // Solicita o email do PayPal
+        enviarSaque(paypalEmail, 10) // Enviar 10 unidades como exemplo
+        pontos -= pontosParaSaque
+        atualizarInterface()
+        mostrarMensagem("Saque solicitado com sucesso!")
+    } senão {
+        mostrarMensagem("Você precisa de 10.000 pontos para sacar.")
+    }
+}
+
+// Função principal
+função principal() {
+    iniciarJogo()
+    while (jogoAtivo) {
+        se (usuarioClicar()) {
+            clicar()
+        }
+        se (usuarioSolicitarSaque()) {
+            solicitarSaque()
+        }
+    }
+}
